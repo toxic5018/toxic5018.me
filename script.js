@@ -30,107 +30,40 @@ console.log(
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM fully loaded.'); // Log when the DOM is ready
 
-    // --- Social Links Management from link.xml ---
+    // --- Social Links Management from link.js (JavaScript Object) ---
 
-    // Function to fetch and parse XML links and set button hrefs with retries
-    function fetchAndSetLinks(retryCount = 3) { // Added retryCount with default
-        console.log(`Attempting to fetch link.xml (Attempt ${4 - retryCount})...`); // Log fetch attempt
+    // We are now assuming link.js is loaded via a <script> tag
+    // BEFORE script.js, making the socialLinksData object available globally.
 
-        fetch('link.xml')
-            .then(response => {
-                console.log(`link.xml fetch response status: ${response.status}`); // Log response status
-                if (!response.ok) {
-                    console.error(`HTTP error fetching link.xml! Status: ${response.status}`); // Error on bad HTTP status
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                console.log('link.xml fetched successfully.'); // Log successful fetch
-                return response.text();
-            })
-            .then(str => {
-                console.log('Attempting to parse link.xml...'); // Log parse attempt
-                const parser = new DOMParser();
-                let xmlDoc;
-                try {
-                    xmlDoc = parser.parseFromString(str, "text/xml");
-                } catch (parseError) {
-                     console.error('Exception during link.xml parsing:', parseError);
-                     throw new Error('link.xml parsing failed due to an exception.'); // Re-throw as a custom error
-                }
+    console.log('Setting social button links from socialLinksData object...');
+
+    const socialButtons = document.querySelectorAll('.social-button[data-link-id]');
+
+    socialButtons.forEach(button => {
+        const linkId = button.dataset.linkId;
+        // Access the URL directly from the global socialLinksData object using the ID
+        // Check if socialLinksData exists and has the linkId property
+        const url = (typeof socialLinksData !== 'undefined' && socialLinksData !== null && socialLinksData.hasOwnProperty(linkId)) ? socialLinksData[linkId] : null;
 
 
-                // Check for XML parsing errors using parsererror element
-                const errorNode = xmlDoc.querySelector('parsererror');
-                if (errorNode) {
-                     console.error('Error parsing link.xml (parsererror element):', errorNode.textContent); // Error on parse error
-                     // The parsererror content can be very helpful for debugging
-                     throw new Error('link.xml parsing error reported in parsererror element.');
-                }
-
-                console.log('link.xml parsed successfully.'); // Log successful parse
-                return xmlDoc;
-            })
-            .then(data => {
-                console.log('Setting social button links...'); // Log link setting process
-                const socialButtons = document.querySelectorAll('.social-button[data-link-id]');
-
-                socialButtons.forEach(button => {
-                    const linkId = button.dataset.linkId;
-                    // Query for the URL element within the link with the matching ID
-                    const linkElement = data.querySelector(`link[id="${linkId}"] url`);
-
-                    if (linkElement && linkElement.textContent) {
-                        button.href = linkElement.textContent; // Set button href
-                        console.log(`Link set successfully for button with ID ${linkId}: ${button.href}`); // Log successful link set
-                         // Add click listener to confirm navigation is intended
-                         button.addEventListener('click', (event) => {
-                             console.log(`Navigating to: ${button.href}`); // Changed from warn to log
-                             // No event.preventDefault() here, allow default navigation
-                         });
-                    } else {
-                        console.error(`Link URL not found in XML for button ID: ${linkId}`); // Error if link not found in XML
-                         // Keep the click warning for missing links from XML - this is a valid case even if XML loads
-                         button.addEventListener('click', (event) => {
-                             event.preventDefault(); // Prevent default navigation for broken links
-                             console.warn(`Button clicked, but link URL not found in XML for ID: ${linkId}.`);
-                         });
-                    }
-                });
-                 console.log('Social button links processing complete.'); // Log end of link setting
-            })
-            .catch(error => {
-                console.error(`Error fetching or parsing link.xml (Attempt ${4 - retryCount}):`, error); // Log error with attempt number
-
-                if (retryCount > 0) {
-                    const retryDelay = 1000; // 1 second delay before retrying
-                    console.log(`Retrying fetch for link.xml in ${retryDelay}ms...`); // Log retry
-                    setTimeout(() => fetchAndSetLinks(retryCount - 1), retryDelay);
-                } else {
-                    console.error('Max retries reached. Failed to fetch link.xml.'); // Log max retries
-                    // If all retries fail, add the fallback click listener to all buttons
-                     const socialButtons = document.querySelectorAll('.social-button[data-link-id]');
-                     socialButtons.forEach(button => {
-                         // Ensure href is reset to '#' if fetch failed and add the general failure listener
-                         button.href = '#';
-                         // Remove any previously added listeners to avoid duplicates
-                         // This is a basic attempt, storing listener references is more robust but adds complexity
-                         // For this case, adding the listener again is likely fine as the fetch won't succeed later.
-                         const oldListener = button._socialLinkErrorListener; // Check for stored listener
-                         if (oldListener) {
-                             button.removeEventListener('click', oldListener);
-                         }
-                         const newListener = (event) => {
-                             event.preventDefault();
-                             console.warn('Button clicked, but social links failed to load after multiple attempts.');
-                         };
-                         button.addEventListener('click', newListener);
-                         button._socialLinkErrorListener = newListener; // Store listener reference
-                     });
-                }
-            });
-    }
-
-    // Fetch and set links on page load
-    fetchAndSetLinks(); // Call without retryCount initially, default handles it
+        if (url) {
+            button.href = url; // Set button href
+            console.log(`Link set successfully for button with ID ${linkId}: ${button.href}`); // Log successful link set
+             // Add click listener to confirm navigation is intended
+             button.addEventListener('click', (event) => {
+                 console.log(`Navigating to: ${button.href}`); // Changed from warn to log
+                 // No event.preventDefault() here, allow default navigation
+             });
+        } else {
+            console.error(`Link URL not found in socialLinksData object for button ID: ${linkId}`); // Error if link not found in object
+             // Keep the click warning for missing links
+             button.addEventListener('click', (event) => {
+                 event.preventDefault(); // Prevent default navigation for broken links
+                 console.warn(`Button clicked, but link URL not found in socialLinksData object for ID: ${linkId}.`);
+             });
+        }
+    });
+     console.log('Social button links processing complete.');
 
 
     // --- Version Information from version.xml ---
@@ -477,9 +410,6 @@ document.addEventListener('DOMContentLoaded', () => {
                  darkModeCheckbox.disabled = false; // Enable manual dark mode
                  darkModeCheckbox.parentElement.classList.remove('disabled'); // Remove disabled styling class
 
-                 // Stop listening for system theme changes
-                 systemThemeMediaQuery.removeEventListener('change', handleSystemThemeChange);
-
                  // Revert to saved Dark Mode preference or default to light
                  const savedDarkMode = localStorage.getItem('darkMode');
                  if (savedDarkMode === 'enabled') {
@@ -509,7 +439,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (darkModeCheckbox.checked) {
                     applyTheme('dark');
                     localStorage.setItem('darkMode', 'enabled'); // Save preference
-                    console.log('Dark mode enabled (manual). Preference saved to localStorage.'); // Log enabled and saved
+                    console.log('Dark mode enabled (manual). Preference saved to localStorage.'); // Log enabled and saved'); // Log disabled and saved
                 } else {
                     applyTheme('light');
                     localStorage.setItem('darkMode', 'disabled'); // Save preference
@@ -691,7 +621,7 @@ document.addEventListener('DOMContentLoaded', () => {
          }
          else {
              console.log('No visual effects preference found in localStorage, using default (enabled).');
-             visualEffectsCheckbox.checked = true; // Default state
+             visualEffectsCheckbox.checked = true; // Default state - FIXED SYNTAX ERROR HERE
              body.classList.remove('no-visual-effects');
          }
      } else {
