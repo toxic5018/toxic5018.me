@@ -1,5 +1,7 @@
 # toxic5018.me
 
+https://toxic5018.github.io/toxic5018.me/
+
 Released 05.04.2025 at 11:00PM EDT...
 
 > 🚫 **DO NOT REUSE OR REHOST THIS PROJECT WITHOUT PERMISSION**  
