@@ -1,5 +1,7 @@
 # toxic5018.me
 
+Released 05.04.2025 at 11:00PM EDT...
+
 > 🚫 **DO NOT REUSE OR REHOST THIS PROJECT WITHOUT PERMISSION**  
 > This project is personal and tailored specifically for toxic5018. It is not intended for redistribution or adaptation without explicit consent.
 
