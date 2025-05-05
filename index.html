@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>toxic5018.me</title>
+    <link rel="stylesheet" href="style.css" />
+
+    <link rel="icon" type="image/png" href="favicon.png" />
+
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&family=Sen:wght@400..800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="header-left has-tooltip" data-description="toxic5018.me">
+        toxic5018.me
+      </div>
+      <div class="header-right">
+        <span
+          class="material-icons settings-icon has-tooltip"
+          data-description="Settings"
+          >settings</span
+        >
+      </div>
+    </header>
+
+    <main>
+      <div class="profile-card-area">
+        <div class="profile-picture-container">
+          <img
+            src="assets/profile/pfp1.png"
+            alt="Profile Picture"
+            class="profile-pic"
+          />
+        </div>
+        <div class="profile-container">
+          <h1>TOXIC5018</h1>
+          <div class="location">
+            <span class="material-icons location-icon">location_on</span>
+            United States, USA
+          </div>
+          <div class="roles">Gamer | Programmer | Reviewer</div>
+          <p class="bio">
+            I'm passionate about gaming, coding, and offering reviews. Whether
+            it's on YouTube, TikTok, or Discord, I share insight!!!
+          </p>
+        </div>
+
+        <div class="social-buttons">
+          <a
+            href="#"
+            target="_blank"
+            class="social-button youtube-button"
+            data-link-id="1"
+          >
+            <img
+              src="assets/textures/youtube.png"
+              alt="YouTube Logo"
+              class="social-icon-img"
+            />
+            YouTube
+          </a>
+
+          <a
+            href="#"
+            target="_blank"
+            class="social-button tiktok-button"
+            data-link-id="2"
+          >
+            <img
+              src="assets/textures/tiktok.png"
+              alt="TikTok Logo"
+              class="social-icon-img"
+            />
+            TikTok
+          </a>
+
+          <a
+            href="#"
+            target="_blank"
+            class="social-button discord-button-styled"
+            data-link-id="3"
+          >
+            <img
+              src="assets/textures/discord.png"
+              alt="Discord Logo"
+              class="social-icon-img"
+            />
+            Discord
+          </a>
+
+          <a
+            href="#"
+            target="_blank"
+            class="social-button github-button-styled"
+            data-link-id="4"
+          >
+            <img
+              src="assets/textures/github.png"
+              alt="Github Logo"
+              class="social-icon-img"
+            />
+            Github
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <div class="example-images-container">
+      <img
+        src="assets/profile/pfp1.png"
+        alt="Moving PFP"
+        class="example-image left-pop"
+        style="top: 100px"
+      />
+      <img
+        src="assets/profile/pfp1.png"
+        alt="Moving PFP"
+        class="example-image left-pop"
+        style="top: 250px"
+      />
+
+      <img
+        src="assets/profile/pfp1.png"
+        alt="Moving PFP"
+        class="example-image right-pop"
+        style="top: 150px"
+      />
+      <img
+        src="assets/profile/pfp1.png"
+        alt="Moving PFP"
+        class="example-image right-pop"
+        style="top: 300px"
+      />
+      <img
+        src="assets/profile/pfp1.png"
+        alt="Moving PFP"
+        class="example-image right-pop"
+        style="top: 450px"
+      />
+    </div>
+
+    <div class="level-bar-container">
+      <div class="level-info">
+        <span class="level-text">Level 0</span> -
+        <span class="click-counter">0 clicks of 10 clicks</span>
+      </div>
+      <div class="level-bar-fill"></div>
+    </div>
+
+    <div class="settings-overlay">
+      <div class="settings-panel">
+        <h2>Settings</h2>
+
+        <div class="settings-category">
+          <h3>System</h3>
+          <div class="setting-item">
+            <label
+              class="custom-checkbox"
+              data-description="Match the website's theme to your operating system's dark or light mode preference."
+            >
+              <input type="checkbox" id="systemDefaultCheckbox" />
+              <span class="checkbox-indicator"></span> Use System Default
+            </label>
+          </div>
+        </div>
+
+        <div class="settings-category">
+          <h3>Visual</h3>
+          <div class="setting-item">
+            <label
+              class="custom-checkbox"
+              data-description="Toggle between dark and light mode for the main content."
+            >
+              <input type="checkbox" id="darkModeCheckbox" />
+              <span class="checkbox-indicator"></span> Dark Mode
+            </label>
+          </div>
+          <div class="setting-item">
+            <label
+              class="custom-checkbox"
+              data-description="Enable or disable the slow left-right motion of the background gradient."
+            >
+              <input type="checkbox" id="backgroundMotionCheckbox" />
+              <span class="checkbox-indicator"></span> Background Motion
+            </label>
+          </div>
+          <div class="setting-item">
+            <label
+              class="custom-checkbox"
+              data-description="Toggle various visual effects like button hover animations and continuous box shadow."
+            >
+              <input type="checkbox" id="visualEffectsCheckbox" checked />
+              <span class="checkbox-indicator"></span> Show Visual Effects
+            </label>
+          </div>
+        </div>
+
+        <div class="settings-footer">
+          <p class="version-info">Version: Loading...</p>
+        </div>
+      </div>
+      <div class="setting-description-tooltip"></div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

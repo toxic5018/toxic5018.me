@@ -1,0 +1,839 @@
+/* style.css */
+/* Basic styling for the body and layout */
+body {
+  margin: 0; /* Remove default body margin */
+  /* Gradient Background - Rotated slightly upwards */
+  background: linear-gradient(
+    120deg,
+    #87ceeb 50%,
+    #000 50%
+  ); /* Light blue/sky to black gradient */
+  background-attachment: fixed; /* Keep the background fixed when scrolling */
+  background-size: 200% 100%; /* Make background larger for motion */
+  /* Default background-position: centered when no animation */
+  background-position: 50% 0;
+  color: #fff; /* Default text color for areas with the body background */
+  min-height: 100vh; /* Ensure the gradient covers the full viewport height */
+  display: flex; /* Use flexbox for layout */
+  flex-direction: column; /* Stack content vertically */
+  align-items: center; /* Center content horizontally */
+  font-family: 'Sen', sans-serif; /* Apply Sen font */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions for mode change */
+}
+
+/* Prevent text highlighting */
+body {
+  user-select: none; /* Standard property */
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+}
+
+/* Prevent image dragging */
+img {
+  -webkit-user-drag: none; /* Safari */
+  user-drag: none; /* Standard property */
+}
+
+/* Keyframes for slow left-right background motion */
+@keyframes background-move {
+  0% {
+    background-position: 0% 0; /* Start from the left */
+  }
+  100% {
+    background-position: 100% 0; /* Move to the right */
+  }
+}
+
+/* Class to enable background motion (applied by JS) */
+body.background-motion-enabled {
+  animation: background-move 10s linear infinite alternate; /* Apply the animation */
+  /* background-position is controlled by the animation keyframes when animation is applied */
+}
+
+/* Header styling */
+header {
+  background-color: #000; /* Black background */
+  color: #fff; /* White text */
+  padding: 10px 20px; /* Padding around header content */
+  display: flex; /* Use flexbox to align items */
+  justify-content: space-between; /* Space out left and right content */
+  align-items: center; /* Vertically align items */
+  position: fixed; /* Keep header at the top */
+  width: 100%; /* Full width */
+  top: 0; /* Align to the top */
+  left: 0; /* Align to the left */
+  z-index: 1000; /* Ensure header is above other content */
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+
+/* Styling for the left side of the header (website title) */
+.header-left {
+  font-size: 1.2em;
+  font-weight: bold;
+  cursor: pointer; /* Add pointer cursor to indicate hoverable */
+}
+
+/* Styling for the right side of the header (settings icon) */
+.header-right .settings-icon {
+  /* Added settings-icon class selector */
+  cursor: pointer; /* Indicate clickable */
+  font-size: 1.5em; /* Size of the icon */
+}
+
+/* Main content area styling */
+main {
+  padding-top: 60px; /* Add padding to the top to prevent content from being hidden by the fixed header */
+  flex-grow: 1; /* Allow main to take up available vertical space */
+  display: flex; /* Use flexbox for main content alignment */
+  justify-content: center; /* Center content horizontally */
+  align-items: flex-start; /* Align items to the top initially */
+  width: 100%; /* Full width */
+  box-sizing: border-box; /* Include padding in width */
+}
+
+/* Container for the profile card and social buttons */
+.profile-card-area {
+  margin-top: 40px; /* Space below the header */
+  display: flex; /* Use flexbox for stacking items */
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center items horizontally within this container */
+  width: 90%; /* Responsive width */
+  max-width: 500px; /* Maximum width for the profile area */
+  /* Initial state for startup animation */
+  opacity: 0;
+  transform: translateY(20px);
+  /* Apply startup animation */
+  animation: fadeInUp 1s ease-out forwards;
+}
+
+/* Keyframes for the fade-in and slide-up startup animation */
+@keyframes fadeInUp {
+  to {
+    opacity: 1; /* Fade in */
+    transform: translateY(0); /* Slide up to original position */
+  }
+}
+
+/* Container for the profile picture (clickable) */
+.profile-picture-container {
+  margin-bottom: -60px; /* Pull the image up to overlap with the card */
+  z-index: 2; /* Ensure image is above the card */
+  cursor: pointer; /* Indicate clickable */
+}
+
+/* Styling for the profile picture image */
+.profile-pic {
+  width: 120px; /* Size of the profile picture */
+  height: 120px; /* Size of the profile picture */
+  border-radius: 50%; /* Make the image circular */
+  object-fit: cover; /* Ensure the image covers the area without distortion */
+  border: 5px solid #000; /* Optional: border around the image */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: shadow for the image */
+}
+
+/* Styling for the main profile information box (Box UI) */
+.profile-container {
+  background-color: #1a1a1a; /* Dark background for the profile card */
+  color: #fff; /* White text for the profile card */
+  padding: 80px 30px 30px; /* Add top padding to account for the overlapping image */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Initial shadow */
+  text-align: center; /* Center text content */
+  width: 100%; /* Occupy the full width of the parent (.profile-card-area) */
+  box-sizing: border-box; /* Include padding and border in width */
+  margin-bottom: 20px; /* Space below the profile container */
+  position: relative; /* Needed for shining animation pseudo-element */
+  overflow: hidden; /* Hide the overflowing pseudo-element (shine) */
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease, box-shadow 1s ease-in-out; /* Smooth transitions, include box-shadow for animation */
+  border-width: 2px; /* Set border width */
+  border-style: solid; /* Set border style */
+  /* Apply continuous pulsating shadow animation (default - dark mode) */
+  animation: pulse-shadow-dark 1s infinite alternate; /* Use dark mode animation by default */
+}
+
+/* Keyframes for the continuous pulsating shadow animation on the profile box (dark mode) */
+@keyframes pulse-shadow-dark {
+  0% {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 15px 5px rgba(200, 200, 200, 0.3); /* Subtle gray glow */
+  }
+  100% {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Keyframes for the continuous pulsating shadow animation on the profile box (light mode) */
+@keyframes pulse-shadow-light {
+  0% {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 10px 3px rgba(100, 100, 100, 0.3); /* Subtle gray glow */
+  }
+  100% {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Shining motion animation keyframes for the profile box */
+@keyframes shine-box {
+  0% {
+    background-position: -200% 0; /* Start off-screen left */
+  }
+  100% {
+    background-position: 200% 0; /* End off-screen right */
+  }
+}
+
+/* Pseudo-element for the shining motion effect on the profile box - Common Styles */
+.profile-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: 50% 100%; /* Width of the shining bar */
+  background-repeat: no-repeat;
+  /* Animation for the shining motion */
+  animation: shine-box 1s linear infinite; /* Runs every 1 second */
+  pointer-events: none; /* Allow clicks to pass through */
+  z-index: 1; /* Above background, below content */
+}
+
+/* Shining effect color in Dark Mode */
+body.dark-mode .profile-container::after {
+   background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.1), /* Semi-transparent white gradient */
+    transparent
+  );
+}
+
+/* Shining effect color in Light Mode */
+body:not(.dark-mode) .profile-container::after {
+   background: linear-gradient(
+    to right,
+    transparent,
+    rgba(0, 0, 0, 0.1), /* Semi-transparent black gradient */
+    transparent
+  );
+}
+
+
+/* Styling for the username */
+.profile-container h1 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #fff; /* White color for the name */
+  position: relative; /* Ensure text is above other potential elements */
+  z-index: 2;
+  transition: color 0.3s ease; /* Smooth transition for dark mode */
+}
+
+/* Styling for location, roles, and bio */
+.location,
+.roles,
+.bio {
+  /* Adjusted z-index for content */
+  position: relative;
+  z-index: 2;
+  transition: color 0.3s ease; /* Smooth transition for dark mode */
+}
+
+/* Styling for location and roles */
+.location,
+.roles {
+  margin-bottom: 8px; /* Space below */
+  font-size: 0.9em; /* Smaller font size */
+  color: #bbb; /* Lighter color for secondary text */
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Vertically align items */
+  justify-content: center; /* Center content horizontally */
+}
+
+/* Styling for icons within location */
+.location-icon {
+  font-size: 1em; /* Adjust icon size relative to text */
+  margin-right: 8px; /* Space between icon and text */
+}
+
+/* Styling for social icon images */
+.social-icon-img {
+  /* Specific class for image icons */
+  width: 1.2em; /* Match font-size for consistent sizing */
+  height: 1.2em;
+  object-fit: contain; /* Ensure image fits without distortion */
+  margin-right: 8px; /* Space between icon and text */
+}
+
+/* Styling for the bio paragraph */
+.bio {
+  margin-top: 15px;
+  margin-bottom: 20px;
+  line-height: 1.5; /* Spacing between lines */
+  color: #ccc; /* Slightly lighter color for the bio */
+}
+
+/* Container for social media buttons */
+.social-buttons {
+  display: flex; /* Use flexbox */
+  flex-direction: column; /* Stack buttons vertically */
+  width: 100%; /* Occupy the full width of the parent (.profile-card-area) */
+  max-width: 500px; /* Match the max-width of the profile container */
+  align-items: stretch; /* Stretch items to fill the container width */
+  margin-top: 20px; /* Add space above social buttons */
+  padding: 0 30px; /* Add padding to match profile container side padding */
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+
+/* Styling for individual social media buttons */
+.social-button {
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Vertically align icon and text */
+  justify-content: center; /* Center content horizontally */
+  padding: 12px 20px; /* Padding inside buttons */
+  border-radius: 5px; /* Rounded corners */
+  text-decoration: none; /* Remove underline from links */
+  font-weight: bold; /* Bold text */
+  margin-bottom: 15px; /* Space between buttons */
+  width: 100%; /* Stretch to fill the social-buttons container */
+  position: relative; /* Needed for pseudo-element positioning */
+  overflow: hidden; /* Hide the overflowing pseudo-element initially */
+  color: #fff; /* Default text color for buttons */
+  transition: color 0.3s ease, border-color 0.3s ease, transform 0.3s ease,
+    background-color 0.3s ease; /* Smooth transitions */
+  border-width: 2px; /* Set border width */
+  border-style: solid; /* Set border style */
+  box-sizing: border-box; /* Include border and padding in width calculation */
+  z-index: 1; /* Ensure buttons are above overlay if z-index conflicts */
+}
+
+/* Style for the last social button (no bottom margin) */
+.social-button:last-child {
+  margin-bottom: 0;
+}
+
+/* Hover effect for social buttons (reverted to slight increase) */
+.social-button:hover {
+  transform: scale(1.02); /* Make button slightly bigger on hover */
+}
+
+/* Common pseudo-element for the shiny outline effect on buttons */
+.social-button::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.5) 50%,
+    transparent 70%
+  );
+  transform: rotate(30deg);
+  transition: transform 0.5s ease;
+  opacity: 0; /* Hide initially */
+  z-index: 0;
+}
+
+/* Animation for the shiny outline on button hover */
+.social-button:hover::before {
+  transform: rotate(30deg) translate(50%, 50%); /* Move the shiny effect on hover */
+  opacity: 1;
+  animation: shine 1.5s infinite linear; /* Add animation on hover */
+}
+
+/* Keyframes for the shiny animation */
+@keyframes shine {
+  0% {
+    transform: rotate(30deg) translate(-100%, -100%);
+  }
+  100% {
+    transform: rotate(30deg) translate(100%, 100%);
+  }
+}
+
+/* Style to hide visual effects (applied via class on body) */
+body.no-visual-effects .social-button::before {
+  /* Added body. */
+  display: none; /* Hide the shiny pseudo-element */
+}
+
+/* Disable hover scaling when visual effects are off */
+body.no-visual-effects .social-button:hover {
+  /* Added body. */
+  transform: scale(1); /* Disable hover scaling */
+}
+
+/* Disable pulsating shadow animation on the profile box when visual effects are off */
+body.no-visual-effects .profile-container {
+  /* Added rule to disable pulsating shadow */
+  animation: none;
+}
+
+/* Disable shining animation on the profile box when visual effects are off */
+body.no-visual-effects .profile-container::after {
+  /* Added body. */
+  display: none;
+}
+
+/* Button specific styling (background and border colors) */
+.youtube-button {
+  background-color: #ff0000; /* YouTube red background */
+  border-color: #8b0000; /* Dark Red Border */
+}
+
+.tiktok-button {
+  background-color: #000000; /* TikTok black background */
+  border-color: #000000; /* Dark Black Border */
+  color: #fff; /* White text on black background */
+}
+
+.discord-button-styled {
+  background-color: #7289da; /* Discord color background */
+  border-color: #3a5f7f; /* Dark Mid Blue Border (Steel Blue darker shade) */
+}
+
+/* Styling for the new Github button */
+.github-button-styled {
+  background-color: #333; /* Dark gray background for Github */
+  border-color: #555; /* Slightly lighter gray border */
+  color: #fff; /* White text */
+}
+
+/* Settings Overlay (Covers the screen when settings are open) */
+.settings-overlay {
+  position: fixed; /* Fixed position relative to viewport */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+  z-index: 1001; /* Above header */
+  display: flex; /* Use flexbox for centering panel */
+  justify-content: center; /* Center horizontally */
+  /* Initially hidden */
+  visibility: hidden; /* Hide completely */
+  opacity: 0; /* Fully transparent */
+  transition: opacity 0.3s ease, visibility 0.3s ease; /* Smooth fade transition */
+}
+
+/* Class to make the overlay visible */
+.settings-overlay.visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Settings Panel (The actual settings box) */
+.settings-panel {
+  position: fixed; /* Fixed position relative to viewport */
+  top: 0; /* Start at the top edge */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%) translateY(-100%); /* Center and position off-screen above */
+  width: 90%; /* Responsive width */
+  max-width: 400px; /* Max width for the panel */
+  background-color: #282828; /* Dark background for the panel */
+  color: #fff; /* White text */
+  padding: 20px; /* Padding inside panel */
+  border-radius: 0 0 8px 8px; /* Rounded corners only at the bottom */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Shadow */
+  z-index: 1002; /* Above overlay */
+  max-height: 80vh; /* Maximum height with vertical scrollbar */
+  overflow-y: auto; /* Enable vertical scrolling if content overflows */
+  transition: transform 0.5s ease; /* Slide down animation */
+  border: 2px solid #000; /* Black Outline for Settings UI */
+  display: flex; /* Use flexbox for internal layout */
+  flex-direction: column; /* Stack categories and footer */
+}
+
+/* Class to slide the settings panel into view */
+.settings-panel.active {
+  transform: translateX(-50%) translateY(0); /* Slide into view */
+}
+
+/* Styling for the settings panel title */
+.settings-panel h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #fff;
+}
+
+/* Styling for settings categories */
+.settings-category {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #444; /* Separator line */
+}
+
+.settings-category:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.settings-category h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #fff;
+    font-size: 1.1em;
+    border-left: 4px solid #7289da; /* Highlight color */
+    padding-left: 10px;
+}
+
+
+/* Styling for individual setting items (checkboxes) */
+.setting-item {
+  margin-bottom: 15px; /* Space below each item */
+  position: relative; /* Needed for tooltip positioning within panel if not using JS positioning */
+  display: flex; /* Use flexbox to align label */
+  align-items: center;
+}
+
+/* Style for disabled checkbox label */
+.custom-checkbox.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none; /* Prevent clicks */
+}
+
+
+/* Hide the default browser checkbox */
+.custom-checkbox input[type='checkbox'] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Styling for the custom checkbox indicator (the visible square) */
+.checkbox-indicator {
+  position: relative; /* Needed for checkmark positioning */
+  display: inline-block;
+  width: 20px; /* Size of the custom checkbox */
+  height: 20px;
+  background-color: #eee; /* Background when unchecked */
+  border-radius: 4px; /* Rounded corners */
+  margin-right: 10px; /* Space between checkbox and text */
+  transition: background-color 0.2s ease; /* Smooth color transition */
+}
+
+/* Style the indicator when the checkbox is checked */
+.custom-checkbox input[type='checkbox']:checked + .checkbox-indicator {
+  background-color: #7289da; /* Discord color for checked */
+}
+
+/* Create the checkmark using a pseudo-element */
+.checkbox-indicator::after {
+  content: '';
+  position: absolute;
+  display: none; /* Hide checkmark initially */
+  left: 7px; /* Position the checkmark */
+  top: 3px;
+  width: 5px;
+  height: 10px;
+  border: solid white; /* White color for the checkmark */
+  border-width: 0 3px 3px 0; /* Create the checkmark shape */
+  transform: rotate(45deg); /* Rotate to form a checkmark */
+}
+
+/* Show the checkmark when the checkbox is checked */
+.custom-checkbox input[type='checkbox']:checked + .checkbox-indicator::after {
+  display: block; /* Show the checkmark */
+}
+
+/* Styling for the setting description tooltip box (positioned by JS) */
+.setting-description-tooltip {
+  position: fixed; /* Fixed position to follow cursor */
+  background-color: #333;
+  color: #fff;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  white-space: nowrap; /* Prevent text wrapping */
+  opacity: 0; /* Initially hidden */
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  pointer-events: none; /* Don't block mouse events */
+  z-index: 2003; /* Above settings panel and overlay */
+  transform: translate(-50%, -100%); /* Adjust position relative to mouse */
+}
+
+/* Custom Scrollbar for Webkit browsers (Chrome, Safari) */
+.settings-panel::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+/* Custom Scrollbar track styling */
+.settings-panel::-webkit-scrollbar-track {
+  background: #333; /* Background of the scrollbar track */
+  border-radius: 4px; /* Rounded corners */
+}
+
+/* Custom Scrollbar thumb styling */
+.settings-panel::-webkit-scrollbar-thumb {
+  background: #555; /* Color of the scrollbar thumb */
+  border-radius: 4px; /* Rounded corners */
+}
+
+/* Custom Scrollbar thumb styling on hover */
+.settings-panel::-webkit-scrollbar-thumb:hover {
+  background: #777; /* Color on hover */
+}
+
+/* Styling for the settings footer (version info) */
+.settings-footer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+
+/* Styling for the version information text */
+.version-info {
+  font-size: 0.9em;
+  color: #bbb; /* Lighter color */
+}
+
+/* Dark Mode Styles (Applied when body has the class .dark-mode) */
+body.dark-mode {
+  /* Background gradient remains the same, only adjust content colors */
+  color: #fff; /* Ensure body text is white in dark mode */
+}
+
+/* Dark mode styling for the profile container */
+.dark-mode .profile-container {
+  background-color: #1a1a1a; /* Keep dark background */
+  color: #fff; /* Keep white text */
+  border-color: #333; /* Dark Gray Border in Dark Mode */
+  /* Use dark mode animation shadow */
+  animation-name: pulse-shadow-dark;
+}
+
+/* Dark mode styling for elements inside the profile container */
+.dark-mode .profile-container h1 {
+  color: #fff; /* Keep white name */
+}
+
+/* Dark mode styling for location, roles, and bio */
+/* These should inherit color from .profile-container or body in dark mode */
+.dark-mode .location,
+.dark-mode .roles,
+.dark-mode .bio {
+  color: #ccc; /* Keep text color */
+}
+
+/* Dark mode styling for the settings panel */
+.dark-mode .settings-panel {
+  background-color: #282828; /* Keep dark background */
+  color: #fff; /* Keep white text */
+  border: 2px solid #000; /* Keep black outline */
+}
+
+/* Dark mode styling for elements inside the settings panel */
+.dark-mode .settings-panel h2,
+.dark-mode .settings-category h3,
+.dark-mode .version-info {
+  color: #fff; /* Keep white text */
+}
+
+/* Dark mode styling for the checkbox indicator */
+.dark-mode .checkbox-indicator {
+  background-color: #eee; /* Keep background when unchecked */
+}
+
+/* Dark mode styling for the checked checkbox indicator */
+.dark-mode
+  .custom-checkbox
+  input[type='checkbox']:checked
+  + .checkbox-indicator {
+  background-color: #7289da; /* Keep Discord color for checked indicator */
+}
+
+/* Light Mode Styles (Default - Applied when body does NOT have the class .dark-mode) */
+body:not(.dark-mode) {
+  /* Background gradient remains the same, only adjust content colors */
+  color: #333; /* Dark text for light mode body areas (if any) */
+}
+
+/* Light mode styling for the profile container */
+body:not(.dark-mode) .profile-container {
+  background-color: #fff; /* White background for the profile card in light mode */
+  color: #333; /* Dark text for the profile card in light mode */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Lighter shadow in light mode */
+  border-color: #ccc; /* Light Gray Border in Light Mode */
+  /* Use light mode animation shadow */
+  animation-name: pulse-shadow-light;
+}
+
+/* Light mode styling for elements inside the profile container */
+body:not(.dark-mode) .profile-container h1 {
+  color: #000; /* Black name in light mode */
+}
+
+/* Light mode styling for location, roles, and bio */
+body:not(.dark-mode) .location,
+body:not(.dark-mode) .roles,
+body:not(.dark-mode) .bio {
+  color: #555; /* Default text color in light mode */
+}
+
+/* Light mode styling for the settings panel */
+body:not(.dark-mode) .settings-panel {
+  background-color: #f4f4f4; /* Light background for settings panel in light mode */
+  color: #333; /* Dark text */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Lighter shadow */
+  border: 2px solid #000; /* Keep black outline */
+}
+
+/* Light mode styling for elements inside the settings panel */
+body:not(.dark-mode) .settings-panel h2,
+body:not(.dark-mode) .settings-category h3,
+body:not(.dark-mode) .version-info {
+  color: #333; /* Dark text */
+}
+
+/* Light mode styling for the checkbox indicator */
+body:not(.dark-mode) .checkbox-indicator {
+  background-color: #ccc; /* Indicator color in light mode */
+}
+
+/* Light mode styling for the checked checkbox indicator */
+body:not(.dark-mode)
+  .custom-checkbox
+  input[type='checkbox']:checked
+  + .checkbox-indicator {
+  background-color: #7289da; /* Keep Discord color for checked indicator */
+}
+
+/* --- Level Bar Styling --- */
+.level-bar-container {
+  position: fixed; /* Fixed position at the bottom */
+  bottom: 0;
+  left: 0;
+  width: 100%; /* Full width of the window */
+  height: 30px; /* Height of the level bar area */
+  background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent dark background */
+  color: #fff; /* White text color */
+  display: flex; /* Use flexbox for layout */
+  flex-direction: column; /* Stack info and bar vertically */
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+  z-index: 1000; /* Above main content, below settings overlay */
+  font-size: 0.9em;
+  padding: 5px 0; /* Padding top and bottom */
+  box-sizing: border-box; /* Include padding in height */
+  visibility: hidden; /* Initially hidden */
+  opacity: 0; /* Initially transparent */
+  transition: opacity 0.3s ease, visibility 0.3s ease; /* Fade in/out */
+}
+
+/* Class to make the level bar visible */
+.level-bar-container.visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Styling for the level and click info text */
+.level-info {
+  margin-bottom: 5px; /* Space below text */
+}
+
+/* Styling for the fillable level bar */
+.level-bar-fill {
+  width: 0%; /* Starts empty */
+  height: 10px; /* Height of the bar itself */
+  background-color: #87ceeb; /* Light blue fill color */
+  transition: width 0.5s ease-in-out; /* Smooth fill animation */
+  border-radius: 5px; /* Rounded corners */
+}
+
+/* Container for example animated images */
+.example-images-container {
+  position: fixed; /* Fixed position relative to viewport */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Allow clicks to pass through */
+  z-index: -1; /* Behind main content */
+}
+
+/* Styling for example image elements */
+.example-image {
+  position: absolute; /* Position absolutely within the container */
+  width: 50px; /* Size of example images */
+  height: 50px;
+  object-fit: cover;
+  /* Initial state for animation */
+  opacity: 0;
+}
+
+/* Animation keyframes for images popping from the left */
+@keyframes popInFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100px); /* Start off-screen left */
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(0); /* Pop into view */
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100px); /* Pop out to the right */
+  }
+}
+
+/* Animation keyframes for images popping from the right */
+@keyframes popDownFromRight {
+  0% {
+    opacity: 0;
+    transform: translate(100px, -100px); /* Start off-screen right and up */
+  }
+  50% {
+    opacity: 1;
+    transform: translate(0, 0); /* Pop into view */
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-100px, 100px); /* Pop out to the left and down */
+  }
+}
+
+/* Apply animation to example images */
+.example-image.left-pop {
+  left: 0;
+  animation: popInFromLeft 3s ease-in-out infinite; /* Adjust timing and delay as needed */
+}
+
+.example-image.right-pop {
+  right: 0;
+  animation: popDownFromRight 3s ease-in-out infinite; /* Adjust timing and delay as needed */
+}
+
+/* Add delays to individual example images for staggered animation */
+.example-images-container img:nth-child(1) {
+  animation-delay: 0s;
+}
+.example-images-container img:nth-child(2) {
+  animation-delay: 0.5s;
+}
+.example-images-container img:nth-child(3) {
+  animation-delay: 0s;
+}
+.example-images-container img:nth-child(4) {
+  animation-delay: 0.5s;
+}
+.example-images-container img:nth-child(5) {
+  animation-delay: 1s;
+}
+/* end of style.css */
